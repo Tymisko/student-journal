@@ -11,13 +11,14 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
+using MahApps.Metro.Controls;
 
 namespace Diary
 {
     /// <summary>
     /// Interaction logic for AddEditStudentView.xaml
     /// </summary>
-    public partial class AddEditStudentView : Window
+    public partial class AddEditStudentView : MetroWindow
     {
         public AddEditStudentView()
         {
