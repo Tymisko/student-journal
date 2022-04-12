@@ -13,7 +13,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
 using MahApps.Metro.Controls;
 
-namespace Diary
+namespace Diary.Views
 {
     /// <summary>
     /// Interaction logic for AddEditStudentView.xaml

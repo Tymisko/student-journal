@@ -14,7 +14,7 @@ using System.Windows.Navigation;
 using System.Windows.Shapes;
 using MahApps.Metro.Controls;
 
-namespace Diary
+namespace Diary.Views
 {
     /// <summary>
     /// Interaction logic for MainWindow.xaml
