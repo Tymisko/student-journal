@@ -12,19 +12,6 @@ namespace Diary.ViewModels
     {
         public event PropertyChangedEventHandler PropertyChanged;
 
-        private int _myProperty;
-
-        public int MyProperty
-        {
-            get { return _myProperty; }
-            set 
-            { 
-                _myProperty = value;
-                OnPropertyChanged();
-            }
-        }
-
-
         protected virtual void OnPropertyChanged(
             [CallerMemberName] string propertyName = null)
         {

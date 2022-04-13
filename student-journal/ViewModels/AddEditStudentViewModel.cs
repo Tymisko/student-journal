@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Diary.ViewModels
 {
-    internal class AddEditStudentViewModel
+    internal class AddEditStudentViewModel : ViewModelBase
     {
     }
 }
