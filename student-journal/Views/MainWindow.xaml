@@ -18,7 +18,7 @@
             <Button Content="Edit" Height="25" Width="100" Margin="5" />
             <Button Content="Delete" Height="25" Width="100" Margin="5" />
             <ComboBox Height="25" Width="150" Margin="5" />
-            <Button Content="Refresh" Height="25" Width="100" Margin="5" />            
+            <Button Command="{Binding RefreshStudentsCommand}" Content="Refresh" Height="25" Width="100" Margin="5" />            
         </StackPanel>
         <DataGrid Grid.Row="1" Margin="5"/>
     </Grid>

@@ -12,6 +12,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using Diary.ViewModels;
 using MahApps.Metro.Controls;
 
 namespace Diary.Views
@@ -24,11 +25,7 @@ namespace Diary.Views
         public MainWindow()
         {
             InitializeComponent();
-        }
-
-        private void Button_Click(object sender, RoutedEventArgs e)
-        {
-
+            DataContext = new MainViewModel();
         }
     }
 }

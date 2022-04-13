@@ -11,6 +11,7 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
+using Diary.ViewModels;
 using MahApps.Metro.Controls;
 
 namespace Diary.Views
@@ -23,6 +24,7 @@ namespace Diary.Views
         public AddEditStudentView()
         {
             InitializeComponent();
+            DataContext = new AddEditStudentViewModel();
         }
     }
 }
