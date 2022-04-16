@@ -24,7 +24,7 @@ namespace Diary.ViewModels
 
         private void RefreshStudents(object obj)
         {
-            MessageBox.Show("RefreshStudents");
+            throw new NotImplementedException();
         }
     }
 }
