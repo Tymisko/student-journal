@@ -7,7 +7,7 @@
                  xmlns:local="clr-namespace:Diary"
                  mc:Ignorable="d"
                  WindowStartupLocation="CenterScreen"
-                 Title="School Journal" Height="450" Width="800">
+                 Title="School Journal" Height="450" Width="900">
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"/>
@@ -20,6 +20,29 @@
             <ComboBox Height="25" Width="150" Margin="5" />
             <Button Command="{Binding RefreshStudentsCommand}" Content="Refresh" Height="25" Width="100" Margin="5" />            
         </StackPanel>
-        <DataGrid Grid.Row="1" Margin="5"/>
+        <DataGrid 
+            Grid.Row="1"
+            Margin="5"
+            ItemsSource="{Binding Students}"
+            SelectedItem="{Binding SelectedStudent}"
+            CanUserAddRows="False"
+            IsReadOnly="True"
+            SelectionMode="Single"
+            AutoGenerateColumns="False">
+            <DataGrid.Columns>
+                <DataGridTextColumn Binding="{Binding Id}" Visibility="Hidden" />
+                <DataGridTextColumn Binding="{Binding FirstName}" Header="Imię"/>
+                <DataGridTextColumn Binding="{Binding LastName}" Header="Nazwisko"/>
+                <DataGridTextColumn Binding="{Binding Comments}" Header="Uwagi"/>
+                <DataGridTextColumn Binding="{Binding Math}" Header="Matematyka"/>
+                <DataGridTextColumn Binding="{Binding Technology}" Header="Technologia"/>
+                <DataGridTextColumn Binding="{Binding Physics}" Header="Fizyka"/>
+                <DataGridTextColumn Binding="{Binding PolishLang}" Header="Język Obcy"/>
+                <DataGridTextColumn Binding="{Binding ForeignLang}" Header="Język Polski"/>
+                <DataGridTextColumn Binding="{Binding Activities}" Header="Dodatkowe"/>
+                <DataGridTextColumn Binding="{Binding Group.Name}" Header="Grupa"/>
+
+            </DataGrid.Columns>
+        </DataGrid>
     </Grid>
 </mah:MetroWindow>
