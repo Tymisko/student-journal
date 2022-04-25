@@ -17,7 +17,15 @@
             <Button Content="Add" Height="25" Width="100" Margin="5" />
             <Button Content="Edit" Height="25" Width="100" Margin="5" />
             <Button Content="Delete" Height="25" Width="100" Margin="5" />
-            <ComboBox Height="25" Width="150" Margin="5" />
+            <ComboBox 
+                Height="25"
+                Width="150"
+                Margin="5"
+                ItemsSource="{Binding Groups}"
+                SelectedValue="{Binding SelectedGroupId}"
+                DisplayMemberPath="Name"
+                SelectedValuePath="Id"
+                />
             <Button Command="{Binding RefreshStudentsCommand}" Content="Refresh" Height="25" Width="100" Margin="5" />            
         </StackPanel>
         <DataGrid 
