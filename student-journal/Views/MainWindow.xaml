@@ -31,17 +31,16 @@
             AutoGenerateColumns="False">
             <DataGrid.Columns>
                 <DataGridTextColumn Binding="{Binding Id}" Visibility="Hidden" />
-                <DataGridTextColumn Binding="{Binding FirstName}" Header="Imię"/>
-                <DataGridTextColumn Binding="{Binding LastName}" Header="Nazwisko"/>
-                <DataGridTextColumn Binding="{Binding Comments}" Header="Uwagi"/>
-                <DataGridTextColumn Binding="{Binding Math}" Header="Matematyka"/>
-                <DataGridTextColumn Binding="{Binding Technology}" Header="Technologia"/>
-                <DataGridTextColumn Binding="{Binding Physics}" Header="Fizyka"/>
-                <DataGridTextColumn Binding="{Binding PolishLang}" Header="Język Obcy"/>
-                <DataGridTextColumn Binding="{Binding ForeignLang}" Header="Język Polski"/>
-                <DataGridTextColumn Binding="{Binding Activities}" Header="Dodatkowe"/>
-                <DataGridTextColumn Binding="{Binding Group.Name}" Header="Grupa"/>
-
+                <DataGridTextColumn Binding="{Binding FirstName}" Header="First Name"/>
+                <DataGridTextColumn Binding="{Binding LastName}" Header="Last Name"/>
+                <DataGridTextColumn Binding="{Binding Comments}" Header="Comments"/>
+                <DataGridTextColumn Binding="{Binding Math}" Header="Math"/>
+                <DataGridTextColumn Binding="{Binding Technology}" Header="Technology"/>
+                <DataGridTextColumn Binding="{Binding Physics}" Header="Physics"/>
+                <DataGridTextColumn Binding="{Binding PolishLang}" Header="Polish Language"/>
+                <DataGridTextColumn Binding="{Binding ForeignLang}" Header="Foreign Language"/>
+                <DataGridTextColumn Binding="{Binding Activities}" Header="Activities"/>
+                <DataGridTextColumn Binding="{Binding Group.Name}" Header="Group"/>
             </DataGrid.Columns>
         </DataGrid>
     </Grid>
