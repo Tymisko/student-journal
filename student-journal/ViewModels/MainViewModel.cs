@@ -76,5 +76,16 @@ namespace Diary.ViewModels
         {
             throw new NotImplementedException();
         }
+        private void InitGroups()
+        {
+            Groups = new ObservableCollection<Group>()
+            {
+                new Group { Id = 0, Name = "All" },
+                new Group { Id = 1, Name = "1A" },
+                new Group { Id = 2, Name = "2A" }
+            };
+
+            SelectedGroupId = 0;
+        }
     }
 }
