@@ -4,7 +4,6 @@
                  xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
                  xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
                  xmlns:mah="clr-namespace:MahApps.Metro.Controls;assembly=MahApps.Metro"
-                 xmlns:local="clr-namespace:Diary"
                  mc:Ignorable="d"
                  WindowStartupLocation="CenterScreen"
                  Title="School Journal" Height="450" Width="900">
@@ -14,9 +13,31 @@
             <RowDefinition />
         </Grid.RowDefinitions>
         <StackPanel Orientation="Horizontal">
-            <Button Content="Add" Height="25" Width="100" Margin="5" />
-            <Button Content="Edit" Height="25" Width="100" Margin="5" />
-            <Button Content="Delete" Height="25" Width="100" Margin="5" />
+
+            <Button 
+                Command="{Binding AddStudentCommand}"
+                Content="Add" 
+                Height="25"
+                Width="100" 
+                Margin="5"
+                />
+
+            <Button 
+                Command="{Binding EditStudentCommand}"
+                Content="Edit"
+                Height="25"
+                Width="100" 
+                Margin="5" 
+                />
+
+            <Button 
+                Command="{Binding DeleteStudentCommand}"
+                Content="Delete" 
+                Height="25"
+                Width="100" 
+                Margin="5" 
+                />
+
             <ComboBox 
                 Height="25"
                 Width="150"
@@ -26,7 +47,14 @@
                 DisplayMemberPath="Name"
                 SelectedValuePath="Id"
                 />
-            <Button Command="{Binding RefreshStudentsCommand}" Content="Refresh" Height="25" Width="100" Margin="5" />            
+
+            <Button 
+                Command="{Binding RefreshStudentsCommand}" 
+                Content="Refresh" 
+                Height="25" 
+                Width="100" 
+                Margin="5"
+                />            
         </StackPanel>
         <DataGrid 
             Grid.Row="1"
