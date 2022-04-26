@@ -8,6 +8,9 @@ using System.Windows;
 using System.Windows.Input;
 using Diary.Commands;
 using Diary.Models;
+using Diary.Views;
+using MahApps.Metro.Controls;
+using MahApps.Metro.Controls.Dialogs;
 
 namespace Diary.ViewModels
 {
@@ -15,51 +18,12 @@ namespace Diary.ViewModels
     {
         public MainViewModel()
         {
-            AddStudentCommand = new RelayCommand(AddStudent);
-            EditStudentCommand = new RelayCommand(EditStudent);
-            DeleteStudentCommand = new RelayCommand(DeleteStudent);
+            AddStudentCommand = new RelayCommand(AddEditStudent);
+            EditStudentCommand = new RelayCommand(AddEditStudent, IsStudentSelected);
+            DeleteStudentCommand = new AsyncRelayCommand(DeleteStudent, IsStudentSelected);
             RefreshStudentsCommand = new RelayCommand(RefreshStudents);
 
-            Students = new ObservableCollection<Student>()
-            {
-                new Student
-                {
-                    FirstName = "Patryk",
-                    LastName = "Matczak",
-                    Group = new Group {Id = 0}
-                },
-
-                new Student
-                {
-                    FirstName = "Kamil",
-                    LastName = "Nowak",
-                    Group = new Group {Id = 0}
-                },
-
-                new Student
-                {
-                    FirstName = "Janusz",
-                    LastName = "Kaczyński",
-                    Group = new Group {Id = 0}
-                },
-            };
-
             InitGroups();
-        }
-
-        private void DeleteStudent(object obj)
-        {
-            throw new NotImplementedException();
-        }
-
-        private void EditStudent(object obj)
-        {
-            throw new NotImplementedException();
-        }
-
-        private void AddStudent(object obj)
-        {
-            throw new NotImplementedException();
         }
 
         public ICommand AddStudentCommand { get; set; }
@@ -123,7 +87,7 @@ namespace Diary.ViewModels
 
         private void RefreshStudents(object obj)
         {
-            throw new NotImplementedException();
+            RefreshDiary();
         }
         private void InitGroups()
         {
@@ -135,6 +99,65 @@ namespace Diary.ViewModels
             };
 
             SelectedGroupId = 0;
+        }
+
+        private void RefreshDiary()
+        {
+            Students = new ObservableCollection<Student>()
+            {
+                new Student
+                {
+                    FirstName = "Patryk",
+                    LastName = "Matczak",
+                    Group = new Group {Id = 0}
+                },
+
+                new Student
+                {
+                    FirstName = "Kamil",
+                    LastName = "Nowak",
+                    Group = new Group {Id = 0}
+                },
+
+                new Student
+                {
+                    FirstName = "Janusz",
+                    LastName = "Kaczyński",
+                    Group = new Group {Id = 0}
+                }
+            };
+        }
+
+        private bool IsStudentSelected(object obj)
+        {
+            return SelectedStudent != null;
+        }
+
+        private async Task DeleteStudent(object obj)
+        {
+            var metroWindow = Application.Current.MainWindow as MetroWindow;
+            var dialog = await metroWindow.ShowMessageAsync("Deleting a student",
+                $"Are you sure you want to delete student {SelectedStudent.FirstName} {SelectedStudent.LastName}?",
+                MessageDialogStyle.AffirmativeAndNegative);
+
+            if (dialog != MessageDialogResult.Affirmative) 
+                return;
+
+            // deleting the student from database
+
+            RefreshDiary();
+        }
+
+        private void AddEditStudent(object obj)
+        {
+            var addEditStudentWindow = new AddEditStudentView(obj as Student);
+            addEditStudentWindow.Closed += AddEditStudentWindow_Closed;
+            addEditStudentWindow.ShowDialog();
+        }
+
+        private void AddEditStudentWindow_Closed(object sender, EventArgs e)
+        {
+            RefreshDiary();
         }
     }
 }
