@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Diary.Models
 {
-    internal class Group
+    public class Group
     {
         public int Id { get; set; }
         public string Name { get; set; }
