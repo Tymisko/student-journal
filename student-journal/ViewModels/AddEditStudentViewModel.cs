@@ -8,19 +8,20 @@ using System.Windows;
 using System.Windows.Input;
 using Diary.Commands;
 using Diary.Models;
+using Diary.Models.Wrappers;
 
 namespace Diary.ViewModels
 {
     internal class AddEditStudentViewModel : ViewModelBase
     {
-        public AddEditStudentViewModel(Student student = null)
+        public AddEditStudentViewModel(StudentWrapper student = null)
         {
             ConfirmCommand = new RelayCommand(Confirm);
             CloseCommand = new RelayCommand(Close);
 
             if (student == null)
             {
-                Student = new Student();
+                Student = new StudentWrapper();
             }
             else
             {
@@ -34,9 +35,9 @@ namespace Diary.ViewModels
         public ICommand ConfirmCommand { get; set; }
         public ICommand CloseCommand { get; set; }
 
-        private Student _student;
+        private StudentWrapper _student;
 
-        public Student Student
+        public StudentWrapper Student
         {
             get => _student;
             set
@@ -58,9 +59,9 @@ namespace Diary.ViewModels
             }
         }
 
-        private ObservableCollection<Group> _groups;
+        private ObservableCollection<GroupWrapper> _groups;
 
-        public ObservableCollection<Group> Groups
+        public ObservableCollection<GroupWrapper> Groups
         {
             get => _groups;
             set
@@ -110,11 +111,11 @@ namespace Diary.ViewModels
 
         private void InitGroups()
         {
-            Groups = new ObservableCollection<Group>()
+            Groups = new ObservableCollection<GroupWrapper>()
             {
-                new Group { Id = 0, Name = "-- none --" },
-                new Group { Id = 1, Name = "1A" },
-                new Group { Id = 2, Name = "2A" }
+                new GroupWrapper { Id = 0, Name = "-- none --" },
+                new GroupWrapper { Id = 1, Name = "1A" },
+                new GroupWrapper { Id = 2, Name = "2A" }
             };
 
             Student.Group.Id = 0;

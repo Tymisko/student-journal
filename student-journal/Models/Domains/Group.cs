@@ -4,11 +4,11 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Diary.Models
+namespace Diary.Models.Domains
 {
-    public class Group
+    internal class Group
     {
         public int Id { get; set; }
-        public string Name { get; set; }
+        public string Name { get; set; }    
     }
 }
