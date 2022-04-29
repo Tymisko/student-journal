@@ -1,13 +1,9 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Input;
 using Diary.Commands;
-using Diary.Models;
 using Diary.Models.Wrappers;
 using Diary.Views;
 using MahApps.Metro.Controls;
@@ -25,6 +21,7 @@ namespace Diary.ViewModels
             RefreshStudentsCommand = new RelayCommand(RefreshStudents);
 
             InitGroups();
+            RefreshDiary();
         }
 
         public ICommand AddStudentCommand { get; set; }
@@ -141,7 +138,7 @@ namespace Diary.ViewModels
                 $"Are you sure you want to delete student {SelectedStudent.FirstName} {SelectedStudent.LastName}?",
                 MessageDialogStyle.AffirmativeAndNegative);
 
-            if (dialog != MessageDialogResult.Affirmative) 
+            if (dialog != MessageDialogResult.Affirmative)
                 return;
 
             // deleting the student from database
