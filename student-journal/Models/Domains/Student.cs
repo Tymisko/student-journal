@@ -1,4 +1,6 @@
-﻿namespace Diary.Models.Domains
+﻿using System.Collections.Generic;
+
+namespace Diary.Models.Domains
 {
     public class Student
     {
@@ -9,5 +11,6 @@
         public string Activities { get; set; }
         public int GroupId { get; set; }
         public Group Group { get; set; }
+        public ICollection<Rating> Ratings { get; set; }
     }
 }
