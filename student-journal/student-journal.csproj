@@ -99,10 +99,15 @@
     <Compile Include="Migrations\202204301049032_SetLastNameMaxLengthAndRequiredForStudentsTable.Designer.cs">
       <DependentUpon>202204301049032_SetLastNameMaxLengthAndRequiredForStudentsTable.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\202205010758405_newMigration.cs" />
+    <Compile Include="Migrations\202205010758405_newMigration.Designer.cs">
+      <DependentUpon>202205010758405_newMigration.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\Configurations\GroupConfiguration.cs" />
     <Compile Include="Models\Configurations\RatingConfiguration.cs" />
     <Compile Include="Models\Configurations\StudentConfiguration.cs" />
+    <Compile Include="Models\Converters\StudentConverter.cs" />
     <Compile Include="Models\Domains\Group.cs" />
     <Compile Include="Models\Domains\Rating.cs" />
     <Compile Include="Models\Domains\Student.cs" />
@@ -110,6 +115,7 @@
     <Compile Include="Models\Wrappers\GroupWrapper.cs" />
     <Compile Include="Models\Wrappers\StudentWrapper.cs" />
     <Compile Include="Properties\Annotations.cs" />
+    <Compile Include="Repository.cs" />
     <Compile Include="ViewModels\AddEditStudentViewModel.cs" />
     <Compile Include="ViewModels\MainViewModel.cs" />
     <Compile Include="ViewModels\ViewModelBase.cs" />

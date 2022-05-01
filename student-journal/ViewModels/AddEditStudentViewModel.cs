@@ -8,12 +8,15 @@ using System.Windows;
 using System.Windows.Input;
 using Diary.Commands;
 using Diary.Models;
+using Diary.Models.Domains;
 using Diary.Models.Wrappers;
 
 namespace Diary.ViewModels
 {
     internal class AddEditStudentViewModel : ViewModelBase
     {
+        private Repository _repository = new Repository();
+
         public AddEditStudentViewModel(StudentWrapper student = null)
         {
             ConfirmCommand = new RelayCommand(Confirm);
@@ -59,9 +62,9 @@ namespace Diary.ViewModels
             }
         }
 
-        private ObservableCollection<GroupWrapper> _groups;
+        private ObservableCollection<Group> _groups;
 
-        public ObservableCollection<GroupWrapper> Groups
+        public ObservableCollection<Group> Groups
         {
             get => _groups;
             set
@@ -98,25 +101,20 @@ namespace Diary.ViewModels
 
         private void UpdateStudent()
         {
-            // Database
-            throw new NotImplementedException();
+            _repository.UpdateStudent(Student);
         }
 
         private void AddStudent()
         {
-            // Database
-            throw new NotImplementedException();
+            _repository.AddStudent(Student);
         }
-
 
         private void InitGroups()
         {
-            Groups = new ObservableCollection<GroupWrapper>()
-            {
-                new GroupWrapper { Id = 0, Name = "-- none --" },
-                new GroupWrapper { Id = 1, Name = "1A" },
-                new GroupWrapper { Id = 2, Name = "2A" }
-            };
+            var groups = _repository.GetGroups();
+            groups.Insert(0, new Group { Id = 0, Name = "-- None --" });
+
+            Groups = new ObservableCollection<Group>(groups);
 
             Student.Group.Id = 0;
         }
