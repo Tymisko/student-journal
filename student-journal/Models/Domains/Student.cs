@@ -1,9 +1,15 @@
 ﻿using System.Collections.Generic;
+using System.Collections.ObjectModel;
 
 namespace Diary.Models.Domains
 {
     public class Student
     {
+        public Student()
+        {
+            Ratings = new Collection<Rating>();
+        }
+
         public int Id { get; set; }
         public string FirstName { get; set; }
         public string LastName { get; set; }
