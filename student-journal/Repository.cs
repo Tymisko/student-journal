@@ -5,7 +5,9 @@ using Diary.Models.Wrappers;
 using System;
 using System.Collections.Generic;
 using System.Data.Entity;
+using System.Data.Entity.Validation;
 using System.Linq;
+using System.Windows;
 
 namespace Diary
 {
@@ -28,21 +30,21 @@ namespace Diary
                     .Include(s => s.Ratings)
                     .AsQueryable();
 
-                if(groupId != 0)
+                if (groupId != 0)
                 {
-                    students.Where(s => s.GroupId == groupId);
+                    students = students.Where(s => s.GroupId == groupId);
                 }
 
                 return students
                     .ToList()
                     .Select(s => s.ToWrapper())
-                    .ToList();                
+                    .ToList();
             }
         }
 
         public void DeleteStudent(int id)
         {
-            using(var context = new ApplicationDbContext())
+            using (var context = new ApplicationDbContext())
             {
                 var studentsToDelete = context.Students.Find(id);
                 context.Students.Remove(studentsToDelete);
@@ -55,10 +57,10 @@ namespace Diary
             var student = studentWrapper.ToDAO();
             var ratings = studentWrapper.ToRatingDAO();
 
-            using(var context = new ApplicationDbContext())
+            using (var context = new ApplicationDbContext())
             {
                 UpdateStudentProperties(student, context);
-                
+
                 List<Rating> studentsRatings = GetStudentsRatings(student, context);
 
                 UpdateRate(student, ratings, context, studentsRatings,
