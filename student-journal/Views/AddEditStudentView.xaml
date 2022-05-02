@@ -43,10 +43,10 @@
             />
 
         <Label Content="First Name:" Grid.Row="1" Margin="5"/>
-        <TextBox Text="{Binding Student.FirstName}" Grid.Column="1" Grid.Row="1" Margin="5"/>
+        <TextBox Text="{Binding Student.FirstName, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}" Grid.Column="1" Grid.Row="1" Margin="5"/>
 
         <Label Content="Last Name:" Grid.Row="2" Margin="5"/>
-        <TextBox Text="{Binding Student.LastName}" Grid.Column="1" Grid.Row="2" Margin="5"/>
+        <TextBox Text="{Binding Student.LastName, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}" Grid.Column="1" Grid.Row="2" Margin="5"/>
 
         <Label Content="Math:" Grid.Row="3" Margin="5"/>
         <TextBox Text="{Binding Student.Math}" Grid.Column="1" Grid.Row="3" Margin="5"/>

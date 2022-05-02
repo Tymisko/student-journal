@@ -1,7 +1,9 @@
 ﻿
+using System.ComponentModel;
+
 namespace Diary.Models.Wrappers
 {
-    public class StudentWrapper
+    public class StudentWrapper : IDataErrorInfo
     {
         public StudentWrapper()
         {
@@ -20,5 +22,27 @@ namespace Diary.Models.Wrappers
         public string Activities { get; set; }
 
         public GroupWrapper Group { get; set; }
+
+        public string this[string columnName]
+        {
+            get
+            {
+                switch (columnName)
+                {
+                    case nameof(FirstName):
+                        Error = string.IsNullOrWhiteSpace(FirstName) ? "First name is required!" : string.Empty;
+                        break;
+                    case nameof(LastName):
+                        Error = string.IsNullOrWhiteSpace(LastName) ? "Last name is required!" : string.Empty;
+                        break;
+                    default:
+                        break;
+                }
+
+                return Error;
+            }
+        }
+
+        public string Error { get; set; }
     }
 }
