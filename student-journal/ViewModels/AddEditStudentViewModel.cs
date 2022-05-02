@@ -17,6 +17,18 @@ namespace Diary.ViewModels
     {
         private Repository _repository = new Repository();
 
+        private int _selectedGroupId;
+
+        public int SelectedGroupId
+        {
+            get => _selectedGroupId;
+            set
+            {
+                _selectedGroupId = value;
+                OnPropertyChanged();
+            }
+        }
+
         public AddEditStudentViewModel(StudentWrapper student = null)
         {
             ConfirmCommand = new RelayCommand(Confirm);
@@ -73,9 +85,6 @@ namespace Diary.ViewModels
                 OnPropertyChanged();
             }
         }
-
-
-
         private void Close(object obj)
         {
             CloseWindow(obj as Window);
@@ -116,7 +125,8 @@ namespace Diary.ViewModels
 
             Groups = new ObservableCollection<Group>(groups);
 
-            Student.Group.Id = 0;
+            SelectedGroupId = Student.Group.Id;
         }
+
     }
 }
