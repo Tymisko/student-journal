@@ -56,12 +56,7 @@ namespace Diary.Models.Converters
                 LastName = model.LastName,
                 Comments = model.Comments,
                 Activities = model.Activities,
-                GroupId = model.Group.Id,
-                Group = new Group
-                {
-                    Id = model.Group.Id,
-                    Name = model.Group.Name,
-                },
+                GroupId = model.Group.Id
             };
         }
 
