@@ -1,9 +1,11 @@
 ﻿using System;
 using System.Collections.ObjectModel;
+using System.Linq;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Input;
 using Diary.Commands;
+using Diary.Models.Domains;
 using Diary.Models.Wrappers;
 using Diary.Views;
 using MahApps.Metro.Controls;
@@ -13,6 +15,7 @@ namespace Diary.ViewModels
 {
     internal class MainViewModel : ViewModelBase
     {
+        private readonly Repository _repository = new Repository();
         public MainViewModel()
         {
             AddStudentCommand = new RelayCommand(AddEditStudent);
@@ -66,9 +69,9 @@ namespace Diary.ViewModels
             }
         }
 
-        private ObservableCollection<GroupWrapper> _groups;
+        private ObservableCollection<Group> _groups;
 
-        public ObservableCollection<GroupWrapper> Groups
+        public ObservableCollection<Group> Groups
         {
             get => _groups;
             set
@@ -78,52 +81,25 @@ namespace Diary.ViewModels
             }
         }
 
-        private bool CanRefreshStudents(object obj)
-        {
-            return true;
-        }
-
         private void RefreshStudents(object obj)
         {
             RefreshDiary();
         }
+
         private void InitGroups()
         {
-            Groups = new ObservableCollection<GroupWrapper>()
-            {
-                new GroupWrapper { Id = 0, Name = "All" },
-                new GroupWrapper { Id = 1, Name = "1A" },
-                new GroupWrapper { Id = 2, Name = "2A" }
-            };
+            var groups = _repository.GetGroups();
+            groups.Insert(0, new Group { Id = 0, Name = "All" });
+
+            Groups = new ObservableCollection<Group>(groups);
 
             SelectedGroupId = 0;
         }
 
         private void RefreshDiary()
         {
-            Students = new ObservableCollection<StudentWrapper>()
-            {
-                new StudentWrapper
-                {
-                    FirstName = "Patryk",
-                    LastName = "Matczak",
-                    Group = new GroupWrapper {Id = 0}
-                },
-
-                new StudentWrapper
-                {
-                    FirstName = "Kamil",
-                    LastName = "Nowak",
-                    Group = new GroupWrapper {Id = 0}
-                },
-
-                new StudentWrapper
-                {
-                    FirstName = "Janusz",
-                    LastName = "Kaczyński",
-                    Group = new GroupWrapper {Id = 0}
-                }
-            };
+            Students = new ObservableCollection<StudentWrapper>(
+                _repository.GetStudents(SelectedGroupId));
         }
 
         private bool IsStudentSelected(object obj)
@@ -142,6 +118,7 @@ namespace Diary.ViewModels
                 return;
 
             // deleting the student from database
+            _repository.DeleteStudent(SelectedStudent.Id);
 
             RefreshDiary();
         }
