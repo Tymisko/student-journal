@@ -33,5 +33,7 @@ namespace Diary.Models.Wrappers
         }
 
         public string Error { get; set; }
+
+        public bool IsValid => string.IsNullOrWhiteSpace(Error);
     }
 }

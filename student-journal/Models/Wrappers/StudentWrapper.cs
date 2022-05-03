@@ -23,6 +23,9 @@ namespace Diary.Models.Wrappers
 
         public GroupWrapper Group { get; set; }
 
+        private bool _isFirstNameValid;
+        private bool _isLastNameValid;
+
         public string this[string columnName]
         {
             get
@@ -30,11 +33,31 @@ namespace Diary.Models.Wrappers
                 switch (columnName)
                 {
                     case nameof(FirstName):
-                        Error = string.IsNullOrWhiteSpace(FirstName) ? "First name is required!" : string.Empty;
+                        if (string.IsNullOrWhiteSpace(FirstName))
+                        {
+                            Error = "First name is required!";
+                            _isFirstNameValid = false;
+                        }
+                        else
+                        {
+                            Error = string.Empty;
+                            _isFirstNameValid = true;
+                        }
                         break;
+
                     case nameof(LastName):
-                        Error = string.IsNullOrWhiteSpace(LastName) ? "Last name is required!" : string.Empty;
+                        if (string.IsNullOrWhiteSpace(LastName))
+                        {
+                            Error = "Last name is required!";
+                            _isLastNameValid = false;
+                        }
+                        else
+                        {
+                            Error = string.Empty;
+                            _isLastNameValid = true;
+                        }
                         break;
+
                     default:
                         break;
                 }
@@ -44,5 +67,7 @@ namespace Diary.Models.Wrappers
         }
 
         public string Error { get; set; }
+
+        public bool IsValid => _isFirstNameValid && _isLastNameValid && Group.IsValid;
     }
 }
