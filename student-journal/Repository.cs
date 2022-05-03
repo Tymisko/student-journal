@@ -11,7 +11,7 @@ using System.Windows;
 
 namespace Diary
 {
-    class Repository
+    public class Repository
     {
         public List<Group> GetGroups()
         {
@@ -102,15 +102,15 @@ namespace Diary
                                        Subject subject)
         {
             var subjectRatings = studentsRatings
-                    .Where(r => r.SubjectId == (int)subject)
-                    .Select(r => r.Rate);
-
-            var newsubjectRatings = ratings
                 .Where(r => r.SubjectId == (int)subject)
                 .Select(r => r.Rate);
 
-            var subjectRatingsToDelete = subjectRatings.Except(newsubjectRatings).ToList();
-            var subjectRatingsToAdd = newsubjectRatings.Except(subjectRatings).ToList();
+            var newSubjectRatings = ratings
+                .Where(r => r.SubjectId == (int)subject)
+                .Select(r => r.Rate);
+
+            var subjectRatingsToDelete = subjectRatings.Except(newSubjectRatings).ToList();
+            var subjectRatingsToAdd = newSubjectRatings.Except(subjectRatings).ToList();
 
             subjectRatingsToDelete.ForEach(mr =>
             {
