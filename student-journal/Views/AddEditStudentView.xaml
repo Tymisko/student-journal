@@ -71,6 +71,7 @@
             ItemsSource="{Binding Groups}"
             SelectedValue="{Binding Student.Group.Id, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}"
             DisplayMemberPath="Name"
+            SelectedValuePath="Id"
             />
 
         <CheckBox IsChecked="{Binding Student.Activities}" Content="Extracurricular Activities" Grid.Row="9" Grid.Column="1" />
