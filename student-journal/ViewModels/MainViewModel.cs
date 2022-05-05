@@ -18,6 +18,9 @@ namespace Diary.ViewModels
         private readonly Repository _repository = new Repository();
         public MainViewModel()
         {
+            var databaseSettingsView = new DatabaseSettingsView();
+            databaseSettingsView.ShowDialog();
+
             AddStudentCommand = new RelayCommand(AddEditStudent);
             EditStudentCommand = new RelayCommand(AddEditStudent, IsStudentSelected);
             DeleteStudentCommand = new AsyncRelayCommand(DeleteStudent, IsStudentSelected);
