@@ -39,9 +39,9 @@
         <TextBox Text="{Binding DbSettings.Password, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}" Grid.Column="1" Grid.Row="4" Margin="5"/>
 
         <StackPanel Orientation="Horizontal" Grid.Row="5" Grid.Column="1" HorizontalAlignment="Right">
-            <Button Command="{Binding ConfirmCommand}" 
+            <Button Command="{Binding SaveCommand}" 
                     CommandParameter="{Binding ElementName=DatabaseSettingsWindow}" 
-                    Content="Confirm" Height="25" Margin="5"/>
+                    Content="Save" Height="25" Margin="5"/>
             <Button Command="{Binding CancelCommand}" 
                     CommandParameter="{Binding ElementName=DatabaseSettingsWindow}" 
                     Content="Cancel" Height="25" Margin="5"/>

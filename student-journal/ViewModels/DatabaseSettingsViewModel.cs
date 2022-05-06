@@ -8,7 +8,7 @@ namespace Diary.ViewModels
 {
     internal class DatabaseSettingsViewModel : ViewModelBase
     {
-        public ICommand ConfirmCommand { get; set; }
+        public ICommand SaveCommand { get; set; }
         public ICommand CancelCommand { get; set; }
 
         private DatabaseSettings _dbSettings;
@@ -25,7 +25,7 @@ namespace Diary.ViewModels
 
         public DatabaseSettingsViewModel()
         {
-            ConfirmCommand = new RelayCommand(Confirm);
+            SaveCommand = new RelayCommand(Save);
             CancelCommand = new RelayCommand(Cancel);
 
             _dbSettings = new DatabaseSettings
@@ -43,7 +43,7 @@ namespace Diary.ViewModels
             CloseWindow(obj as Window);
         }
 
-        private void Confirm(object obj)
+        private void Save(object obj)
         {
             if (!DbSettings.IsValid) return;
 
