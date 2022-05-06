@@ -18,22 +18,37 @@ namespace Diary.ViewModels
         private readonly Repository _repository = new Repository();
         public MainViewModel()
         {
-            var databaseSettingsView = new DatabaseSettingsView();
-            databaseSettingsView.ShowDialog();
+            if (!AreDatabaseSettingsSet())
+            {
+                var databaseSettingsView = new DatabaseSettingsView();
+                databaseSettingsView.ShowDialog();
+            }
 
             AddStudentCommand = new RelayCommand(AddEditStudent);
             EditStudentCommand = new RelayCommand(AddEditStudent, IsStudentSelected);
             DeleteStudentCommand = new AsyncRelayCommand(DeleteStudent, IsStudentSelected);
             RefreshStudentsCommand = new RelayCommand(RefreshStudents);
+            DatabaseSettingsCommand = new RelayCommand(UpdateDatabaseSettings);
 
             InitGroups();
             RefreshDiary();
+        }
+
+        private bool AreDatabaseSettingsSet()
+        {
+            if (string.IsNullOrWhiteSpace(Properties.Settings.Default.DatabaseServerAddress)) return false;
+            if (string.IsNullOrWhiteSpace(Properties.Settings.Default.DatabaseServerName)) return false;
+            if (string.IsNullOrWhiteSpace(Properties.Settings.Default.DatabaseName)) return false;
+            if (string.IsNullOrWhiteSpace(Properties.Settings.Default.DatabaseUsername)) return false;
+            if (string.IsNullOrWhiteSpace(Properties.Settings.Default.DatabasePassword)) return false;
+            return true;
         }
 
         public ICommand AddStudentCommand { get; set; }
         public ICommand EditStudentCommand { get; set; }
         public ICommand DeleteStudentCommand { get; set; }
         public ICommand RefreshStudentsCommand { get; set; }
+        public ICommand DatabaseSettingsCommand { get; set; }
 
 
         private StudentWrapper _selectedStudent;
@@ -87,6 +102,11 @@ namespace Diary.ViewModels
         private void RefreshStudents(object obj)
         {
             RefreshDiary();
+        }
+        private void UpdateDatabaseSettings(object obj)
+        {
+            var databaseSettingsWindow = new DatabaseSettingsView();
+            databaseSettingsWindow.ShowDialog();
         }
 
         private void InitGroups()
