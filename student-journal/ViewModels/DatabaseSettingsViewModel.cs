@@ -1,9 +1,8 @@
-﻿using System.Configuration;
+﻿using System;
 using System.Windows;
 using System.Windows.Input;
 using Diary.Commands;
 using Diary.Models;
-using MahApps.Metro.Actions;
 
 namespace Diary.ViewModels
 {
@@ -29,7 +28,14 @@ namespace Diary.ViewModels
             ConfirmCommand = new RelayCommand(Confirm);
             CancelCommand = new RelayCommand(Cancel);
 
-            _dbSettings = new DatabaseSettings();
+            _dbSettings = new DatabaseSettings
+            {
+                ServerAddress = Properties.Settings.Default.DatabaseServerAddress,
+                ServerName = Properties.Settings.Default.DatabaseServerName,
+                DatabaseName = Properties.Settings.Default.DatabaseName,
+                Username = Properties.Settings.Default.DatabaseUsername,
+                Password = Properties.Settings.Default.DatabasePassword
+            };
         }
 
         private void Cancel(object obj)
@@ -39,12 +45,20 @@ namespace Diary.ViewModels
 
         private void Confirm(object obj)
         {
-            MessageBox.Show($"{DbSettings.DatabaseName}, " +
-                            $"{DbSettings.ServerName}, " +
-                            $"{DbSettings.ServerAddress}, " +
-                            $"{DbSettings.Username}, " +
-                            $"{DbSettings.Password}");
+            if (!DbSettings.IsValid) return;
+
+            UpdateDbSettings();
             CloseWindow(obj as Window);
+        }
+
+        private void UpdateDbSettings()
+        {
+            Properties.Settings.Default.DatabaseServerAddress = DbSettings.ServerAddress;
+            Properties.Settings.Default.DatabaseServerName = DbSettings.ServerName;
+            Properties.Settings.Default.DatabaseName = DbSettings.DatabaseName;
+            Properties.Settings.Default.DatabaseUsername = DbSettings.Username;
+            Properties.Settings.Default.DatabasePassword = DbSettings.Password;
+            Properties.Settings.Default.Save();
         }
 
         private static void CloseWindow(Window window)
