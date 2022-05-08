@@ -23,28 +23,54 @@
             <ColumnDefinition/>
         </Grid.ColumnDefinitions>
 
-        <Label Content="Server Address: " Margin="5"/>
-        <TextBox Text="{Binding DbSettings.ServerAddress, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}" Grid.Column="1" Margin="5"/>
+        <Label Content="Server Address: " 
+               Margin="5"/>
+        <TextBox 
+            Text="{Binding DbSettings.ServerAddress, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}" 
+            Grid.Column="1"
+            Margin="5"/>
 
-        <Label Content="Server Name: " Grid.Row="1" Margin="5"/>
-        <TextBox Text="{Binding DbSettings.ServerName, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}" Grid.Column="1" Grid.Row="1" Margin="5"/>
+        <Label Content="Server Name: "
+               Grid.Row="1" 
+               Margin="5"/>
+        <TextBox Text="{Binding DbSettings.ServerName, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}" 
+                 Grid.Row="1"
+                 Grid.Column="1" 
+                 Margin="5"/>
 
-        <Label Content="Database Name: " Grid.Row="2" Margin="5"/>
-        <TextBox Text="{Binding DbSettings.DatabaseName, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}" Grid.Column="1" Grid.Row="2" Margin="5"/>
+        <Label Content="Database Name: "
+               Grid.Row="2"
+               Margin="5"/>
+        <TextBox Text="{Binding DbSettings.DatabaseName, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}"
+                 Grid.Column="1"
+                 Grid.Row="2"
+                 Margin="5"/>
 
-        <Label Content="Username: " Grid.Row="3" Margin="5"/>
-        <TextBox Text="{Binding DbSettings.Username, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}" Grid.Column="1" Grid.Row="3" Margin="5"/>
+        <Label Content="Username: "
+               Grid.Row="3"
+               Margin="5"/>
+        <TextBox Text="{Binding DbSettings.Username, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}"
+                 Grid.Column="1"
+                 Grid.Row="3"
+                 Margin="5"/>
 
-        <Label Content="Password: " Grid.Row="4" Margin="5"/>
-        <TextBox Text="{Binding DbSettings.Password, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}" Grid.Column="1" Grid.Row="4" Margin="5"/>
+        <Label Content="Password: "
+               Grid.Row="4"
+               Margin="5"/>
+        <TextBox Text="{Binding DbSettings.Password, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}"
+                 Grid.Column="1"
+                 Grid.Row="4"
+                 Margin="5"/>
 
         <StackPanel Orientation="Horizontal" Grid.Row="5" Grid.Column="1" HorizontalAlignment="Right">
             <Button Command="{Binding SaveCommand}" 
                     CommandParameter="{Binding ElementName=DatabaseSettingsWindow}" 
-                    Content="Save" Height="25" Margin="5"/>
+                    Content="Save" Height="25" Margin="5"
+                    HorizontalContentAlignment="Center"/>
             <Button Command="{Binding CancelCommand}" 
                     CommandParameter="{Binding ElementName=DatabaseSettingsWindow}" 
-                    Content="Cancel" Height="25" Margin="5"/>
+                    Content="Cancel" Height="25" Margin="5"
+                    HorizontalContentAlignment="Center"/>
         </StackPanel>
     </Grid>
 </mah:MetroWindow>

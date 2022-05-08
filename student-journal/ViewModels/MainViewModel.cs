@@ -1,10 +1,11 @@
 ﻿using System;
 using System.Collections.ObjectModel;
-using System.Linq;
+using System.Diagnostics;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Input;
 using Diary.Commands;
+using Diary.Models;
 using Diary.Models.Domains;
 using Diary.Models.Wrappers;
 using Diary.Views;
@@ -18,30 +19,28 @@ namespace Diary.ViewModels
         private readonly Repository _repository = new Repository();
         public MainViewModel()
         {
-            if (!AreDatabaseSettingsSet())
-            {
-                var databaseSettingsView = new DatabaseSettingsView();
-                databaseSettingsView.ShowDialog();
-            }
-
             AddStudentCommand = new RelayCommand(AddEditStudent);
             EditStudentCommand = new RelayCommand(AddEditStudent, IsStudentSelected);
             DeleteStudentCommand = new AsyncRelayCommand(DeleteStudent, IsStudentSelected);
             RefreshStudentsCommand = new RelayCommand(RefreshStudents);
             DatabaseSettingsCommand = new RelayCommand(UpdateDatabaseSettings);
+            
+            while (!DatabaseConnectionManager.IsConnectionValid())
+            {
+                if (DatabaseConnectionManager.AreDatabaseSettingsEmpty)
+                {
+                    DatabaseConnectionManager.AskUserToFillDatabaseSettings();
+                }
+
+                DatabaseConnectionManager.AskUserToChangeDatabaseSettings();
+                if (DatabaseConnectionManager.UserRefusedChangeSettings)
+                {
+                    Process.GetCurrentProcess().Kill();
+                }
+            }
 
             InitGroups();
             RefreshDiary();
-        }
-
-        private bool AreDatabaseSettingsSet()
-        {
-            if (string.IsNullOrWhiteSpace(Properties.Settings.Default.DatabaseServerAddress)) return false;
-            if (string.IsNullOrWhiteSpace(Properties.Settings.Default.DatabaseServerName)) return false;
-            if (string.IsNullOrWhiteSpace(Properties.Settings.Default.DatabaseName)) return false;
-            if (string.IsNullOrWhiteSpace(Properties.Settings.Default.DatabaseUsername)) return false;
-            if (string.IsNullOrWhiteSpace(Properties.Settings.Default.DatabasePassword)) return false;
-            return true;
         }
 
         public ICommand AddStudentCommand { get; set; }
@@ -103,10 +102,19 @@ namespace Diary.ViewModels
         {
             RefreshDiary();
         }
+
         private void UpdateDatabaseSettings(object obj)
         {
             var databaseSettingsWindow = new DatabaseSettingsView();
             databaseSettingsWindow.ShowDialog();
+
+            if (DatabaseConnectionManager.IsConnectionValid()) return;
+
+            DatabaseConnectionManager.AskUserToChangeDatabaseSettings();
+            if (DatabaseConnectionManager.UserRefusedChangeSettings)
+            {
+                Application.Current.Shutdown();
+            }
         }
 
         private void InitGroups()

@@ -22,13 +22,13 @@ namespace Diary.ViewModels
                 OnPropertyChanged();
             }
         }
-
+        
         public DatabaseSettingsViewModel()
         {
             SaveCommand = new RelayCommand(Save);
             CancelCommand = new RelayCommand(Cancel);
 
-            _dbSettings = new DatabaseSettings
+            DbSettings = new DatabaseSettings
             {
                 ServerAddress = Properties.Settings.Default.DatabaseServerAddress,
                 ServerName = Properties.Settings.Default.DatabaseServerName,
