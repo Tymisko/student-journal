@@ -23,24 +23,10 @@ namespace Diary.ViewModels
             EditStudentCommand = new RelayCommand(AddEditStudent, IsStudentSelected);
             DeleteStudentCommand = new AsyncRelayCommand(DeleteStudent, IsStudentSelected);
             RefreshStudentsCommand = new RelayCommand(RefreshStudents);
-            DatabaseSettingsCommand = new RelayCommand(UpdateDatabaseSettings);
-            
-            while (!DatabaseConnectionManager.IsConnectionValid())
-            {
-                if (DatabaseConnectionManager.AreDatabaseSettingsEmpty)
-                {
-                    DatabaseConnectionManager.AskUserToFillDatabaseSettings();
-                }
+            DatabaseSettingsCommand = new AsyncRelayCommand(UpdateDatabaseSettingsAsync);
 
-                DatabaseConnectionManager.AskUserToChangeDatabaseSettings();
-                if (DatabaseConnectionManager.UserRefusedChangeSettings)
-                {
-                    Process.GetCurrentProcess().Kill();
-                }
-            }
-
-            InitGroups();
-            RefreshDiary();
+            DbConnectionManager.OnValidDatabaseConnection += InitGroups;
+            DbConnectionManager.OnValidDatabaseConnection += RefreshDiary;
         }
 
         public ICommand AddStudentCommand { get; set; }
@@ -103,17 +89,17 @@ namespace Diary.ViewModels
             RefreshDiary();
         }
 
-        private void UpdateDatabaseSettings(object obj)
+        private async Task UpdateDatabaseSettingsAsync(object obj)
         {
-            var databaseSettingsWindow = new DatabaseSettingsView();
-            databaseSettingsWindow.ShowDialog();
+            var dbSettingsView = new DatabaseSettingsView();
+            dbSettingsView.ShowDialog();
 
-            if (DatabaseConnectionManager.IsConnectionValid()) return;
+            if (DbConnectionManager.IsConnectionValid()) return;
 
-            DatabaseConnectionManager.AskUserToChangeDatabaseSettings();
-            if (DatabaseConnectionManager.UserRefusedChangeSettings)
+            await DbConnectionManager.AskUserToChangeDatabaseSettingsAsync();
+            if (DbConnectionManager.UserRefusedChangeSettings)
             {
-                Application.Current.Shutdown();
+                App.Close();
             }
         }
 
@@ -148,9 +134,7 @@ namespace Diary.ViewModels
             if (dialog != MessageDialogResult.Affirmative)
                 return;
 
-            // deleting the student from database
             _repository.DeleteStudent(SelectedStudent.Id);
-
             RefreshDiary();
         }
 

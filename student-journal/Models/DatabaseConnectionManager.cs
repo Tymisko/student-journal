@@ -9,8 +9,10 @@ using MahApps.Metro.Controls.Dialogs;
 
 namespace Diary.Models
 {
-    public static class DatabaseConnectionManager
+    public static class DbConnectionManager
     {
+        public static Action OnValidDatabaseConnection;
+
         private const string ConnectionStrings = "connectionStrings";
         private const string ApplicationDbContext = "ApplicationDbContext";
 
@@ -29,7 +31,7 @@ namespace Diary.Models
             }
 
             var connectionString = GetConnectionStringFromSettings();
-            return IsDatabaseConnectable(connectionString);
+            return IsItPossibleToConnectToDatabase(connectionString);
         }
         
         private static void SetConnectionString(string connectionString)
@@ -68,7 +70,7 @@ namespace Diary.Models
                    !string.IsNullOrWhiteSpace(Properties.Settings.Default.DatabasePassword);
         }
 
-        private static bool IsDatabaseConnectable(string connectionString)
+        private static bool IsItPossibleToConnectToDatabase(string connectionString)
         {
             if (!AreDatabaseSettingsSet()) return false;
 
@@ -86,12 +88,12 @@ namespace Diary.Models
             }
         }
 
-        public static void AskUserToChangeDatabaseSettings()
+        public static async Task AskUserToChangeDatabaseSettingsAsync()
         {
-            var messageBoxResult = MessageBox.Show("Application can't work properly without proper database connection.\nDo you want to change database settings?",
-                "Couldn't connect to database", MessageBoxButton.YesNo, MessageBoxImage.Error);
+            var metroWindow = Application.Current.MainWindow as MetroWindow;
+            var dialog = await metroWindow.ShowMessageAsync("Couldn't connect to database","Do you want to change database settings??", MessageDialogStyle.AffirmativeAndNegative);
 
-            if (messageBoxResult == MessageBoxResult.Yes)
+            if (dialog == MessageDialogResult.Affirmative)
             {
                 UserRefusedChangeSettings = false;
 
@@ -104,7 +106,6 @@ namespace Diary.Models
 
             UserRefusedChangeSettings = true;
         }
-
         public static void AskUserToFillDatabaseSettings()
         {
             var dbSettingsView = new DatabaseSettingsView();

@@ -24,6 +24,9 @@ namespace Diary
             e.Handled = true;
         }
 
-
+        public static void Close()
+        {
+            System.Diagnostics.Process.GetCurrentProcess().Kill();
+        }
     }
 }

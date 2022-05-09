@@ -51,6 +51,10 @@ namespace Diary.ViewModels
             CloseWindow(obj as Window);
         }
 
+        private static void CloseWindow(Window window)
+        {
+            window.Close();
+        }
         private void UpdateDbSettings()
         {
             Properties.Settings.Default.DatabaseServerAddress = DbSettings.ServerAddress;
@@ -59,11 +63,6 @@ namespace Diary.ViewModels
             Properties.Settings.Default.DatabaseUsername = DbSettings.Username;
             Properties.Settings.Default.DatabasePassword = DbSettings.Password;
             Properties.Settings.Default.Save();
-        }
-
-        private static void CloseWindow(Window window)
-        {
-            window.Close();
         }
     }
 }
