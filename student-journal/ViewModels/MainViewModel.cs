@@ -99,7 +99,7 @@ namespace Diary.ViewModels
             await DbConnectionManager.AskUserToChangeDatabaseSettingsAsync();
             if (DbConnectionManager.UserRefusedChangeSettings)
             {
-                App.Close();
+                MainWindow.CloseApplication();
             }
         }
 

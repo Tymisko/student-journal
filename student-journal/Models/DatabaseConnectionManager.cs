@@ -48,7 +48,7 @@ namespace Diary.Models
         {
             if (AreDatabaseSettingsSet())
             {
-                var appSettings = Properties.Settings.Default;
+                var appSettings = StudentJournal.Properties.Settings.Default;
 
                 var server = $@"Server={appSettings.DatabaseServerAddress}\{appSettings.DatabaseServerName};";
                 var database = $@"Database={appSettings.DatabaseName};";
@@ -63,25 +63,26 @@ namespace Diary.Models
 
         private static bool AreDatabaseSettingsSet()
         {
-            return !string.IsNullOrWhiteSpace(Properties.Settings.Default.DatabaseServerAddress) &&
-                   !string.IsNullOrWhiteSpace(Properties.Settings.Default.DatabaseServerName) &&
-                   !string.IsNullOrWhiteSpace(Properties.Settings.Default.DatabaseName) &&
-                   !string.IsNullOrWhiteSpace(Properties.Settings.Default.DatabaseUsername) &&
-                   !string.IsNullOrWhiteSpace(Properties.Settings.Default.DatabasePassword);
+            var savedDbSettings = StudentJournal.Properties.Settings.Default;
+            return !string.IsNullOrWhiteSpace(savedDbSettings.DatabaseServerAddress) &&
+                   !string.IsNullOrWhiteSpace(savedDbSettings.DatabaseServerName) &&
+                   !string.IsNullOrWhiteSpace(savedDbSettings.DatabaseName) &&
+                   !string.IsNullOrWhiteSpace(savedDbSettings.DatabaseUsername) &&
+                   !string.IsNullOrWhiteSpace(savedDbSettings.DatabasePassword);
         }
 
         private static bool IsItPossibleToConnectToDatabase(string connectionString)
         {
             if (!AreDatabaseSettingsSet()) return false;
 
-            using (SqlConnection connection = new SqlConnection(connectionString))
+            using (var context = new ApplicationDbContext())
             {
                 try
                 {
-                    connection.Open();
+                    context.Database.Connection.Open();
                     return true;
                 }
-                catch (SqlException)
+                catch (Exception)
                 {
                     return false;
                 }

@@ -51,7 +51,7 @@ namespace Diary.Models
         {
             if (string.IsNullOrWhiteSpace(prop))
             {
-                Error = $"Field is required!";
+                Error = "Field is required!";
                 return false;
             }
             

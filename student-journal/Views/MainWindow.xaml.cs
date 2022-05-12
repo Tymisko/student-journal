@@ -1,4 +1,5 @@
-﻿using Diary.Models;
+﻿using System.Windows;
+using Diary.Models;
 using Diary.ViewModels;
 using MahApps.Metro.Controls;
 
@@ -9,12 +10,17 @@ namespace Diary.Views
     /// </summary>
     public partial class MainWindow : MetroWindow
     {
+        public static MainWindow MainAppWindow;
         public MainWindow()
         {
             InitializeComponent();
             DataContext = new MainViewModel();
-            CheckDatabaseConnection();
+            MainAppWindow = this;
+
+            SplashScreen.ApplicationSplashScreen.SplashScreenClosed += CheckDatabaseConnection;
         }
+
+        public static void CloseApplication() => Application.Current.Shutdown();
 
         private static async void CheckDatabaseConnection()
         {
@@ -28,7 +34,7 @@ namespace Diary.Views
                 await DbConnectionManager.AskUserToChangeDatabaseSettingsAsync();
                 if (DbConnectionManager.UserRefusedChangeSettings)
                 {
-                    App.Close();
+                    CloseApplication();
                 }
             }
 

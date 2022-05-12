@@ -1,10 +1,13 @@
 ﻿using System;
 using System.Configuration;
 using System.Data;
+using System.Diagnostics;
 using System.Linq;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Threading;
+using Diary.Views;
 using MahApps.Metro.Controls;
 using MahApps.Metro.Controls.Dialogs;
 
@@ -24,9 +27,27 @@ namespace Diary
             e.Handled = true;
         }
 
-        public static void Close()
+        private const int MinimumSplashScreenDuration = 3000;
+        protected override void OnStartup(StartupEventArgs e)
         {
-            System.Diagnostics.Process.GetCurrentProcess().Kill();
+            SplashScreen splash = new();
+            splash.Show();
+
+            Stopwatch timer = new();
+            timer.Start();
+
+            base.OnStartup(e);
+            MainWindow mainWindow = new();
+
+            timer.Stop();
+            var remainingTimeToShowSplashScreen = MinimumSplashScreenDuration - (int)timer.ElapsedMilliseconds;
+            if (remainingTimeToShowSplashScreen > 0)
+            {
+                Thread.Sleep(remainingTimeToShowSplashScreen);
+            }
+
+            splash.Close();
+            splash.OnSplashScreenClosed();
         }
     }
 }

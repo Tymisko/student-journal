@@ -28,13 +28,14 @@ namespace Diary.ViewModels
             SaveCommand = new RelayCommand(Save);
             CancelCommand = new RelayCommand(Cancel);
 
+            var savedDbSettings = StudentJournal.Properties.Settings.Default;
             DbSettings = new DatabaseSettings
             {
-                ServerAddress = Properties.Settings.Default.DatabaseServerAddress,
-                ServerName = Properties.Settings.Default.DatabaseServerName,
-                DatabaseName = Properties.Settings.Default.DatabaseName,
-                Username = Properties.Settings.Default.DatabaseUsername,
-                Password = Properties.Settings.Default.DatabasePassword
+                ServerAddress = savedDbSettings.DatabaseServerAddress,
+                ServerName = savedDbSettings.DatabaseServerName,
+                DatabaseName = savedDbSettings.DatabaseName,
+                Username = savedDbSettings.DatabaseUsername,
+                Password = savedDbSettings.DatabasePassword
             };
         }
 
@@ -57,12 +58,13 @@ namespace Diary.ViewModels
         }
         private void UpdateDbSettings()
         {
-            Properties.Settings.Default.DatabaseServerAddress = DbSettings.ServerAddress;
-            Properties.Settings.Default.DatabaseServerName = DbSettings.ServerName;
-            Properties.Settings.Default.DatabaseName = DbSettings.DatabaseName;
-            Properties.Settings.Default.DatabaseUsername = DbSettings.Username;
-            Properties.Settings.Default.DatabasePassword = DbSettings.Password;
-            Properties.Settings.Default.Save();
+            var savedDbSettings = StudentJournal.Properties.Settings.Default;
+            savedDbSettings.DatabaseServerAddress = DbSettings.ServerAddress;
+            savedDbSettings.DatabaseServerName = DbSettings.ServerName;
+            savedDbSettings.DatabaseName = DbSettings.DatabaseName;
+            savedDbSettings.DatabaseUsername = DbSettings.Username;
+            savedDbSettings.DatabasePassword = DbSettings.Password;
+            savedDbSettings.Save();
         }
     }
 }
