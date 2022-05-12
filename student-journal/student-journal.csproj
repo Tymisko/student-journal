@@ -215,10 +215,6 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
-    <Page Include="SplashScreen.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
     <Page Include="Views\AddEditStudentView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -255,7 +251,6 @@
     <Compile Include="Models\Configurations\RatingConfiguration.cs" />
     <Compile Include="Models\Configurations\StudentConfiguration.cs" />
     <Compile Include="Models\Converters\StudentConverter.cs" />
-    <Compile Include="Models\DatabaseConnectionManager.cs" />
     <Compile Include="Models\DatabaseSettings.cs" />
     <Compile Include="Models\Domains\Group.cs" />
     <Compile Include="Models\Domains\Rating.cs" />
@@ -265,9 +260,6 @@
     <Compile Include="Models\Wrappers\StudentWrapper.cs" />
     <Compile Include="Properties\Annotations.cs" />
     <Compile Include="Repository.cs" />
-    <Compile Include="SplashScreen.xaml.cs">
-      <DependentUpon>SplashScreen.xaml</DependentUpon>
-    </Compile>
     <Compile Include="ViewModels\AddEditStudentViewModel.cs" />
     <Compile Include="ViewModels\DatabaseSettingsViewModel.cs" />
     <Compile Include="ViewModels\MainViewModel.cs" />
@@ -330,6 +322,7 @@
   <ItemGroup>
     <Content Include="DbScripts\202204301049032_SetLastNameMaxLengthAndRequiredForStudentsTable.sql" />
     <Content Include="DbScripts\202205010825357_newMigration1.sql" />
+    <SplashScreen Include="SplashScreen\SplashScreen.jpg" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="..\packages\Fody.6.5.5\build\Fody.targets" Condition="Exists('..\packages\Fody.6.5.5\build\Fody.targets')" />

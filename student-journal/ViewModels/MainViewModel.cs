@@ -23,10 +23,7 @@ namespace Diary.ViewModels
             EditStudentCommand = new RelayCommand(AddEditStudent, IsStudentSelected);
             DeleteStudentCommand = new AsyncRelayCommand(DeleteStudent, IsStudentSelected);
             RefreshStudentsCommand = new RelayCommand(RefreshStudents);
-            DatabaseSettingsCommand = new AsyncRelayCommand(UpdateDatabaseSettingsAsync);
-
-            DbConnectionManager.OnValidDatabaseConnection += InitGroups;
-            DbConnectionManager.OnValidDatabaseConnection += RefreshDiary;
+            DatabaseSettingsCommand = new RelayCommand(UpdateDatabaseSettingsAsync);
         }
 
         public ICommand AddStudentCommand { get; set; }
@@ -89,18 +86,10 @@ namespace Diary.ViewModels
             RefreshDiary();
         }
 
-        private async Task UpdateDatabaseSettingsAsync(object obj)
+        private void UpdateDatabaseSettingsAsync(object obj)
         {
             var dbSettingsView = new DatabaseSettingsView();
             dbSettingsView.ShowDialog();
-
-            if (DbConnectionManager.IsConnectionValid()) return;
-
-            await DbConnectionManager.AskUserToChangeDatabaseSettingsAsync();
-            if (DbConnectionManager.UserRefusedChangeSettings)
-            {
-                MainWindow.CloseApplication();
-            }
         }
 
         private void InitGroups()

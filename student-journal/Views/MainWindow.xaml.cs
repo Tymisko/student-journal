@@ -10,35 +10,10 @@ namespace Diary.Views
     /// </summary>
     public partial class MainWindow : MetroWindow
     {
-        public static MainWindow MainAppWindow;
         public MainWindow()
         {
             InitializeComponent();
             DataContext = new MainViewModel();
-            MainAppWindow = this;
-
-            SplashScreen.ApplicationSplashScreen.SplashScreenClosed += CheckDatabaseConnection;
-        }
-
-        public static void CloseApplication() => Application.Current.Shutdown();
-
-        private static async void CheckDatabaseConnection()
-        {
-            while (!DbConnectionManager.IsConnectionValid())
-            {
-                if (DbConnectionManager.AreDatabaseSettingsEmpty)
-                {
-                    DbConnectionManager.AskUserToFillDatabaseSettings();
-                }
-
-                await DbConnectionManager.AskUserToChangeDatabaseSettingsAsync();
-                if (DbConnectionManager.UserRefusedChangeSettings)
-                {
-                    CloseApplication();
-                }
-            }
-
-            DbConnectionManager.OnValidDatabaseConnection?.Invoke();
         }
     }
 }
