@@ -1,4 +1,7 @@
-﻿using MahApps.Metro.Controls;
+﻿using System.Security;
+using System.Windows;
+using System.Windows.Controls;
+using MahApps.Metro.Controls;
 using StudentJournal.ViewModels;
 
 namespace Diary.Views

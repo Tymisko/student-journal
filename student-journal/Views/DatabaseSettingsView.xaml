@@ -8,7 +8,13 @@
                 mc:Ignorable="d"
                 WindowStartupLocation="CenterScreen"
                 Name="DatabaseSettingsWindow"
-                Title="Database Settings" Height="250" Width="400">
+                Title="Database Settings" 
+                Height="250" 
+                Width="400"
+                MinHeight="250"
+                MinWidth="400"
+                ResizeMode="NoResize"
+                SizeToContent="WidthAndHeight">
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"/>

@@ -7,7 +7,12 @@
                  xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
                  mc:Ignorable="d"
                  WindowStartupLocation="CenterScreen"
-                 Title="School Journal" Height="450" Width="900">
+                 Title="School Journal" 
+                 Height="450" 
+                 Width="950"
+                 MinHeight="450"
+                 MinWidth="950"
+                 SizeToContent="Width">
 
     <i:Interaction.Triggers>
         <i:EventTrigger EventName="Loaded">
