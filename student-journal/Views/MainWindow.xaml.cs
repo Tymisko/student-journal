@@ -2,6 +2,7 @@
 using Diary.Models;
 using Diary.ViewModels;
 using MahApps.Metro.Controls;
+using StudentJournal.ViewModels;
 
 namespace Diary.Views
 {

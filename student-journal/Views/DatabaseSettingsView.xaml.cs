@@ -1,7 +1,5 @@
-﻿using Diary.Models;
-using Diary.ViewModels;
-using System.Windows;
-using MahApps.Metro.Controls;
+﻿using MahApps.Metro.Controls;
+using StudentJournal.ViewModels;
 
 namespace Diary.Views
 {
@@ -10,10 +8,10 @@ namespace Diary.Views
     /// </summary>
     public partial class DatabaseSettingsView : MetroWindow
     {
-        public DatabaseSettingsView()
+        public DatabaseSettingsView(bool canCloseWindow)
         {
             InitializeComponent();
-            DataContext = new DatabaseSettingsViewModel();
+            DataContext = new DatabaseSettingsViewModel(canCloseWindow);
         }
     }
 }

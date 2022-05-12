@@ -1,36 +1,29 @@
 ﻿using System;
 using System.Collections.ObjectModel;
-using System.Diagnostics;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Input;
+using Diary;
 using Diary.Commands;
-using Diary.Models;
 using Diary.Models.Domains;
 using Diary.Models.Wrappers;
+using Diary.ViewModels;
 using Diary.Views;
 using MahApps.Metro.Controls;
 using MahApps.Metro.Controls.Dialogs;
 
-namespace Diary.ViewModels
+namespace StudentJournal.ViewModels
 {
     internal class MainViewModel : ViewModelBase
     {
-        private readonly Repository _repository = new Repository();
-        public MainViewModel()
-        {
-            AddStudentCommand = new RelayCommand(AddEditStudent);
-            EditStudentCommand = new RelayCommand(AddEditStudent, IsStudentSelected);
-            DeleteStudentCommand = new AsyncRelayCommand(DeleteStudent, IsStudentSelected);
-            RefreshStudentsCommand = new RelayCommand(RefreshStudents);
-            DatabaseSettingsCommand = new RelayCommand(UpdateDatabaseSettingsAsync);
-        }
+        private readonly Repository _repository;
 
         public ICommand AddStudentCommand { get; set; }
         public ICommand EditStudentCommand { get; set; }
         public ICommand DeleteStudentCommand { get; set; }
         public ICommand RefreshStudentsCommand { get; set; }
         public ICommand DatabaseSettingsCommand { get; set; }
+        public ICommand LoadedWindowCommand { get; set; }
 
 
         private StudentWrapper _selectedStudent;
@@ -81,6 +74,18 @@ namespace Diary.ViewModels
             }
         }
 
+        public MainViewModel()
+        {
+            _repository = new Repository();
+
+            AddStudentCommand = new RelayCommand(AddEditStudent);
+            EditStudentCommand = new RelayCommand(AddEditStudent, IsStudentSelected);
+            DeleteStudentCommand = new AsyncRelayCommand(DeleteStudent, IsStudentSelected);
+            RefreshStudentsCommand = new RelayCommand(RefreshStudents);
+            DatabaseSettingsCommand = new RelayCommand(UpdateDatabaseSettingsAsync);
+            LoadedWindowCommand = new RelayCommand(LoadedWindow);
+        }
+        
         private void RefreshStudents(object obj)
         {
             RefreshDiary();
@@ -88,7 +93,7 @@ namespace Diary.ViewModels
 
         private void UpdateDatabaseSettingsAsync(object obj)
         {
-            var dbSettingsView = new DatabaseSettingsView();
+            var dbSettingsView = new Diary.Views.DatabaseSettingsView(true);
             dbSettingsView.ShowDialog();
         }
 
@@ -137,6 +142,46 @@ namespace Diary.ViewModels
         private void AddEditStudentWindow_Closed(object sender, EventArgs e)
         {
             RefreshDiary();
+        }
+
+        private async void LoadedWindow(object obj)
+        {
+            if (!IsValidConnectionToDatabase())
+            {
+                var metroWindow = Application.Current.MainWindow as MetroWindow;
+                var dialog = await metroWindow.ShowMessageAsync("Database connection problem.",
+                    "Couldn't connect to database. Would you want to change connection settings?",
+                    MessageDialogStyle.AffirmativeAndNegative);
+
+                if (dialog == MessageDialogResult.Negative)
+                {
+                    Application.Current.Shutdown();
+                }
+                else
+                {
+                    var dbSettingsWindow = new DatabaseSettingsView(false);
+                    dbSettingsWindow.Show();
+                }
+            }
+            else
+            {
+                RefreshDiary();
+                InitGroups();
+            }
+        }
+
+        private static bool IsValidConnectionToDatabase()
+        {
+            try
+            {
+                using var context = new ApplicationDbContext();
+                context.Database.Connection.Open();
+                return true;
+            }
+            catch (Exception)
+            {
+                return false;
+            }
         }
     }
 }

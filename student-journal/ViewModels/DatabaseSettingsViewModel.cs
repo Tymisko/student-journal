@@ -1,10 +1,11 @@
-﻿using System;
+﻿using System.Diagnostics;
 using System.Windows;
 using System.Windows.Input;
 using Diary.Commands;
 using Diary.Models;
+using Diary.ViewModels;
 
-namespace Diary.ViewModels
+namespace StudentJournal.ViewModels
 {
     internal class DatabaseSettingsViewModel : ViewModelBase
     {
@@ -22,49 +23,48 @@ namespace Diary.ViewModels
                 OnPropertyChanged();
             }
         }
+
+        private readonly bool _canCloseWindow;
         
-        public DatabaseSettingsViewModel()
+        public DatabaseSettingsViewModel(bool canCloseWindow)
         {
+            _canCloseWindow = canCloseWindow;
+            
             SaveCommand = new RelayCommand(Save);
             CancelCommand = new RelayCommand(Cancel);
 
-            var savedDbSettings = StudentJournal.Properties.Settings.Default;
-            DbSettings = new DatabaseSettings
-            {
-                ServerAddress = savedDbSettings.DatabaseServerAddress,
-                ServerName = savedDbSettings.DatabaseServerName,
-                DatabaseName = savedDbSettings.DatabaseName,
-                Username = savedDbSettings.DatabaseUsername,
-                Password = savedDbSettings.DatabasePassword
-            };
+            DbSettings = new DatabaseSettings();
         }
 
         private void Cancel(object obj)
         {
-            CloseWindow(obj as Window);
+            if (_canCloseWindow)
+            {
+                CloseWindow(obj as Window);
+            }
+            else
+            {
+                Application.Current.Shutdown();
+            }
         }
 
         private void Save(object obj)
         {
             if (!DbSettings.IsValid) return;
 
-            UpdateDbSettings();
-            CloseWindow(obj as Window);
+            DbSettings.Save();
+            RestartApplication();
+        }
+
+        private static void RestartApplication()
+        {
+            Process.Start(Application.ResourceAssembly.Location);
+            Application.Current.Shutdown();
         }
 
         private static void CloseWindow(Window window)
         {
             window.Close();
-        }
-        private void UpdateDbSettings()
-        {
-            var savedDbSettings = StudentJournal.Properties.Settings.Default;
-            savedDbSettings.DatabaseServerAddress = DbSettings.ServerAddress;
-            savedDbSettings.DatabaseServerName = DbSettings.ServerName;
-            savedDbSettings.DatabaseName = DbSettings.DatabaseName;
-            savedDbSettings.DatabaseUsername = DbSettings.Username;
-            savedDbSettings.DatabasePassword = DbSettings.Password;
-            savedDbSettings.Save();
         }
     }
 }

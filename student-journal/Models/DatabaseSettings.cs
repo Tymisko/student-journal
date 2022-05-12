@@ -1,4 +1,5 @@
 ﻿using System.ComponentModel;
+using StudentJournal.Properties;
 
 namespace Diary.Models
 {
@@ -16,6 +17,19 @@ namespace Diary.Models
         private bool _isUsernameValid;
         private bool _isPasswordValid;
 
+        public string Error { get; set; }
+        
+        public DatabaseSettings()
+        {
+            var savedDbSettings = Settings.Default;
+
+            ServerAddress = savedDbSettings.DatabaseServerAddress;
+            ServerName = savedDbSettings.DatabaseServerName;
+            DatabaseName = savedDbSettings.DatabaseName;
+            Username = savedDbSettings.DatabaseUsername;
+            Password = savedDbSettings.DatabasePassword;
+        }
+        
         public string this[string columnName]
         {
             get
@@ -59,12 +73,23 @@ namespace Diary.Models
             return true;
         }
 
-        public string Error { get; set; }
-
         public bool IsValid => _isServerAddressValid 
             && _isServerNameValid 
             && _isDatabaseNameValid 
             && _isUsernameValid 
             && _isPasswordValid;
+
+        public void Save()
+        {
+            var savedDbSettings = Settings.Default;
+
+            savedDbSettings.DatabaseServerAddress = ServerAddress;
+            savedDbSettings.DatabaseServerName = ServerName;
+            savedDbSettings.DatabaseName = DatabaseName;
+            savedDbSettings.DatabaseUsername = Username;
+            savedDbSettings.DatabasePassword = Password;
+
+            savedDbSettings.Save();
+        }
     }
 }
