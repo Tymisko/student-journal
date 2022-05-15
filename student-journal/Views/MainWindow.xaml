@@ -7,7 +7,7 @@
                  xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
                  mc:Ignorable="d"
                  WindowStartupLocation="CenterScreen"
-                 Title="School Journal" 
+                 Title="Student Journal" 
                  Height="450" 
                  Width="950"
                  MinHeight="450"
